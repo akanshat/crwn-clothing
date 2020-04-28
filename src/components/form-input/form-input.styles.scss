@@ -1,7 +1,7 @@
 $sub-color: grey;
 $main-color: black;
 
-@mixin shrinkLabel {//reusable piece of css
+@mixin shrinkLabel {
   top: -14px;
   font-size: 12px;
   color: $main-color;
