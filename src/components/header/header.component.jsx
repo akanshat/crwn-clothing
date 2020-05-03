@@ -1,4 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+//connect is a higher order component that lets us
+//modify our component to have access to redux high
+//order comp. are fucntions that take
+//components as arguments and return powered up comp.
 import { Link } from 'react-router-dom'
 
 import { auth } from '../../firebase/firebase.utils'
@@ -32,4 +37,11 @@ const Header = ({ currentUser }) => (
   </div>
 )
 
-export default Header
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+})
+
+//now the curretnUSer we see passed is coming
+//from this mapsate to props, due to "connect"
+//now we can remobe currentuser we passed in app.js
+export default connect(mapStateToProps)(Header);
