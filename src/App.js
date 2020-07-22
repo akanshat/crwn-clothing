@@ -9,7 +9,6 @@ import ShopPage from './pages/shop/shop.component'
 import Header from './components/header/header.component'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
-import NotFound from './pages/notfound/notfound.component'
 import { setCurrentUser } from './redux/user/user.actions'
 
 class App extends React.Component {
@@ -56,7 +55,7 @@ class App extends React.Component {
             }
           />
           <Route path='*'>
-            <NotFound />
+            404 NotFound
           </Route>
         </Switch>
       </div>
