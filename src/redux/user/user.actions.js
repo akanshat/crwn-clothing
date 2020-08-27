@@ -8,3 +8,6 @@ export const setCurrentUser = user => ({
   type: UserActionTypes.SET_CURRENT_USER, //reducer type exepectation
   payload: user
 })
+
+
+// ACTION ONLY HAVE TYPE AND PAYLOAD
