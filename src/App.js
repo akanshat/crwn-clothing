@@ -14,7 +14,7 @@ import { setCurrentUser } from './redux/user/user.actions'
 class App extends React.Component {
   unsubscribeFromAuth = null
 
-  componentDidMount () {
+  componentDidMount() {
     const { setCurrentUser } = this.props
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -25,10 +25,10 @@ class App extends React.Component {
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
-          })
-        })
+          });
+        });
       }
-      setCurrentUser(userAuth)
+      setCurrentUser(userAuth);
     })
   }
 

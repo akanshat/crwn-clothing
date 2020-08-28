@@ -10,4 +10,4 @@ export const setCurrentUser = user => ({
 })
 
 
-// ACTION ONLY HAVE TYPE AND PAYLOAD
+// ACTIONS ONLY HAVE TYPE AND PAYLOAD
