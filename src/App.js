@@ -14,45 +14,43 @@ import { setCurrentUser } from './redux/user/user.actions'
 class App extends React.Component {
   unsubscribeFromAuth = null
 
-  componentDidMount () {
+  componentDidMount() {
     const { setCurrentUser } = this.props
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = createUserProfileDocument(userAuth)
 
-        ;(await userRef).onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        })
+          ; (await userRef).onSnapshot(snapShot => {
+            setCurrentUser({
+              id: snapShot.id,
+              ...snapShot.data()
+            });
+          });
       }
-      setCurrentUser(userAuth)
+      setCurrentUser(userAuth);
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribeFromAuth()
   }
 
-  render () {
+  render() {
     return (
       <div>
         <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/shop' component={ShopPage} />
-          <Route
-            exact
-            path='/signin'
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to='/' />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
+          <Route exact path='/signin' render={() => this.props.currentUser ? (
+            <Redirect to='/' />
+          )
+            :
+            (
+              <SignInAndSignUpPage />
+            )
+          }
           />
           <Route path='*'>
             404 NotFound

@@ -1,20 +1,19 @@
-import React from 'react'
-import { connect } from 'react-redux'
-
-import CartIcon from '../cart-icon/cart-icon.component'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 //connect is a higher order component that lets us
 //modify our component to have access to redux high
 //order comp. are fucntions that take
 //components as arguments and return powered up comp.
-import { Link } from 'react-router-dom'
+import CartIcon from '../cart-icon/cart-icon.component';
 
-import { auth } from '../../firebase/firebase.utils'
+import { auth } from '../../firebase/firebase.utils';
 
-import CartDropDown from '../cart-dropdown/cart-dropdown.component'
+import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
-import { ReactComponent as Logo } from '../../assets/crown.svg'
+import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-import './header.styles.scss'
+import './header.styles.scss';
 
 const Header = ({ currentUser, hidden }) => (
   <div className='header'>
@@ -33,15 +32,15 @@ const Header = ({ currentUser, hidden }) => (
           SIGN OUT
         </div>
       ) : (
-        <Link className='option' to='/signin'>
-          SIGN IN
-        </Link>
-      )}
+          <Link className='option' to='/signin'>
+            SIGN IN
+          </Link>
+        )}
       <CartIcon />
     </div>
     {hidden ? null : <CartDropDown />}
   </div>
-)
+);
 
 const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
   currentUser,
