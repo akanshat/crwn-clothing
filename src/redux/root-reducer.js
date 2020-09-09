@@ -6,6 +6,8 @@ import storage from "redux-persist/lib/storage"; // this is an actual localstora
 
 import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
+import directoryReducer from "./directory/directory.reducer";
+import shopReducer from "./shop/shop.reducer";
 
 const persistConfig = {
   key: "root", // at what point we want to start storing inside of our reducer object
@@ -17,6 +19,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
+  directory: directoryReducer,
+  shop: shopReducer,
   //will return one giant object
   //now we bring our new root-reducer to our
   //store and then store to provider in index.js
@@ -24,4 +28,3 @@ const rootReducer = combineReducers({
 
 //here we export modified version of our root reducer with persistence capabilties
 export default persistReducer(persistConfig, rootReducer);
-
