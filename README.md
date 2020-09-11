@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-### Available [here](https://akansha-crwn-live.herokuapp.com/) 
+### Deployed [here](https://akansha-crwn-live.herokuapp.com/) 
 
 ## Available Scripts
 
