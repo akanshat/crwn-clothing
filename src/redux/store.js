@@ -22,4 +22,5 @@ export const persistor = persistStore(store);
 
 //this store we import in out index.js
 //and pass it into the provider
-export default { store, persistor };
+const reduxStore = { store, persistor };
+export default reduxStore

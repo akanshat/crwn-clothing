@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 //connect is a higher order component that lets us
@@ -8,7 +8,7 @@ import { createStructuredSelector } from "reselect";
 //components as arguments and return powered up comp.
 import CartIcon from "../cart-icon/cart-icon.component";
 
-import { auth } from "../../firebase/firebase.utils";
+import { signOutUser } from "../../firebase/firebase.utils";
 
 import CartDropDown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
@@ -17,7 +17,9 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 import "./header.styles.scss";
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden }) => {
+  const navigate = useNavigate()
+  return (
   <div className="header">
     <Link className="logo-container" to="/">
       <Logo className="logo" />
@@ -26,11 +28,18 @@ const Header = ({ currentUser, hidden }) => (
       <Link className="option" to="/shop">
         SHOP
       </Link>
-      <Link className="option" to="/shop">
+      <Link className="option" to="/contact">
         CONTACT
       </Link>
       {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
+        <div className="option" onClick={async() => {
+          try {
+            await signOutUser();
+          } catch (error) {
+            console.error('Error signing out:', error);
+          }
+          navigate('/signin');
+        }}>
           SIGN OUT
         </div>
       ) : (
@@ -43,7 +52,7 @@ const Header = ({ currentUser, hidden }) => (
     {hidden ? null : <CartDropDown />}
   </div>
 );
-
+}
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden,

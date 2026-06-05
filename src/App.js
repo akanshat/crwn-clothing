@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
 import { connect } from "react-redux";
@@ -11,6 +11,8 @@ import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up
 import CheckoutPage from "./pages/checkout/checkout.component";
 
 import Header from "./components/header/header.component";
+import { onAuthStateChanged } from "firebase/auth";
+import { onSnapshot } from "firebase/firestore";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selector";
@@ -21,18 +23,19 @@ class App extends React.Component {
   componentDidMount() {
     const { setCurrentUser } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+    this.unsubscribeFromAuth = onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
-        const userRef = createUserProfileDocument(userAuth);
+        const userRef = await createUserProfileDocument(userAuth);
 
-        (await userRef).onSnapshot((snapShot) => {
+        onSnapshot(userRef, (snapShot) => {
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data(),
           });
         });
+      } else {
+        setCurrentUser(userAuth);
       }
-      setCurrentUser(userAuth);
     });
   }
 
@@ -44,23 +47,26 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop/*" element={<ShopPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route
-            exact
             path="/signin"
-            render={() =>
+            element={
               this.props.currentUser ? (
-                <Redirect to="/" />
+                <Navigate to="/" replace />
               ) : (
                 <SignInAndSignUpPage />
               )
             }
           />
-          <Route path="*">404 NotFound</Route>
-        </Switch>
+          <Route
+            path="/contact"
+            element={<h2 className="contact-page">Contact us at help@crwn.com</h2>}
+          />
+          <Route path="*" element={<h2>404 — Page Not Found</h2>} />
+        </Routes>
       </div>
     );
   }
